@@ -1,0 +1,37 @@
+from tkinter import *
+from tkinter import filedialog
+
+root=Tk()
+root.geometry("300x200")
+def encrypt_image():
+    file1= filedialog.askopenfile(mode= 'r',filetype= [('jpg file','*.jpg'),('png file','*.png')])
+    if file1 is not None:
+
+        # print file1
+        file_name=file1.name
+
+        # print file_name
+        key= entry1.get(1.0,END)
+        print(file_name,key)
+        fi= open(file_name,'rb')
+        image= fi.read()
+        fi.close()
+        image= bytearray(image)
+        for index,values in enumerate(image):
+            image[index]= values^int(key)
+
+        fi1= open(file_name,'wb')
+        fi1.write(image)
+        fi1.close()
+
+
+b1=Button(root,text="encrypt",command= encrypt_image)
+b2=Button(root,text="decrypt",command= encrypt_image)
+
+b1.place(x=100,y=40)
+b2.place(x=170,y=40)
+
+entry1=Text(root,height=1,width=10)
+entry1.place(x=110,y=100)
+
+root.mainloop()
